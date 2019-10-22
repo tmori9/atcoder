@@ -1,10 +1,7 @@
-from scipy.special import comb
-
 N=int(input())
 d_list=[int(i) for i in input().split()]
-# comb = list(itertools.combinations(d_list, 2))
-comb_list = comb(len(d_list), 2, exact=True)
-sum_heal = 0
-for i,j in comb:
-    sum_heal += i*j
+sum_heal = 0 
+for i in range(N):
+    for j in range(i+1, N):
+        sum_heal += d_list[i]*d_list[j]
 print(sum_heal)
