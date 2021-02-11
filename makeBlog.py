@@ -25,22 +25,47 @@ def make_atcoder_url(episode_directory):
 
     p_pathlib = pathlib.Path(episode_directory)
     file_iter = p_pathlib.glob("**/*.py")
+    file_list = []
     for file_name in file_iter:
         result_list.append("# [" + atcoder_root_url +
                            "/tasks/" + episode_directory +
                            "_" + file_name.stem + ":title]")
-    return result_list
+        file_list.append(str(file_name))
+
+    return file_list, result_list
 
 
 def main():
     args = get_args()
     print("Output the {} to output_text.txt".format(args.directory))
 
-    make_atcoder_url(args.directory)
+    file_iter, section_questions = make_atcoder_url(args.directory)
+    file_list = list(file_iter)
 
     blog_sentence = []
     blog_sentence.append("## はじめに")
     blog_sentence.append("AtCoder Beginner Contest 000の振り返りをします。")
+
+    # insert section
+    for i, each_section in enumerate(section_questions):
+        if i == 0:
+            blog_sentence.append(each_section)
+            blog_sentence.append("<!-- more -->")
+            blog_sentence.append("[:contents]")
+        else:
+            blog_sentence.append(each_section)
+            blog_sentence.append("#### 提出したソースコード")
+            blog_sentence.append("``` python")
+
+            with open(file_list[i-1], encoding='UTF-8') as f:
+                py_code = f.read()
+                blog_sentence.append(py_code)
+
+            print(file_list[i-1])
+            blog_sentence.append("```")
+            blog_sentence.append("")
+
+    blog_sentence.append("## 終わりに（余談）")
     print(blog_sentence)
     list_to_text(blog_sentence)
 

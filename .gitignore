@@ -105,3 +105,6 @@ venv.bak/
 
 # output blog
 output_text.txt
+
+# VSCode
+.vscode
