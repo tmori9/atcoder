@@ -7,7 +7,8 @@ def get_args():
         description="This is atcoder blog template")
 
     parser.add_argument('-d', '--directory', type=str,
-                        help='This is episode directory.')
+                        help='This is episode directory.',
+                        required=True)
     return parser.parse_args()
 
 
