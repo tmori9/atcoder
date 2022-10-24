@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 problem_name=$1
