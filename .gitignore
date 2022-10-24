@@ -1,3 +1,6 @@
+test/*
+!.gitkeep
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,6 +108,3 @@ venv.bak/
 
 # output blog
 output_text.txt
-
-# VSCode
-.vscode
