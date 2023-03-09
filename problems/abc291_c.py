@@ -1,48 +1,23 @@
 n = int(input())
-s_list = list(input())
+command_list = list(input())
 
-same_line = True  # 横
-same_row = True  # 縦
 
-r_count = 0
-l_count = 0
-u_count = 0
-d_count = 0
+moved_position = {(0, 0)}  # 移動済みの座標
+now_position = [0, 0]
 
-x = 0
-y = 0
-x_set = set([0])
-y_set = set([0])
-
-current = (x, y)
-all_set = {current}
-
-for i, s in enumerate(s_list):
-    if s == "R":
-        x += 1
-        if (x, y) in all_set:
-            print("Yes")
-            exit()
-        all_set.add((x, y))
-    elif s == "L":
-        x -= 1
-        if (x, y) in all_set:
-            print("Yes")
-            exit()
-        all_set.add((x, y))
-
-    elif s == "U":
-        y += 1
-        if (x, y) in all_set:
-            print("Yes")
-            exit()
-        all_set.add((x, y))
-
+for command in command_list:
+    if command == "R":
+        now_position[0] += 1
+    elif command == "L":
+        now_position[0] -= 1
+    elif command == "U":
+        now_position[1] += 1
     else:
-        y -= 1
-        if (x, y) in all_set:
-            print("Yes")
-            exit()
-        all_set.add((x, y))
+        now_position[1] -= 1
+
+    if tuple(now_position) in moved_position:
+        print("Yes")
+        exit()
+    moved_position.add(tuple(now_position))
 
 print("No")

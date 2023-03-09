@@ -1,9 +1,9 @@
 from statistics import mean
 
-n = int(input())
-x_point = list(map(int, input().split()))
+n = int(input())  # 合計人数は 5*n
+score_list = list(map(int, input().split()))
 
-x_point = sorted(x_point)
+score_list = sorted(score_list)  # 昇順ソート
 
-accurary_point = x_point[n:-n]
+accurary_point = score_list[n:-n]
 print(mean(accurary_point))
