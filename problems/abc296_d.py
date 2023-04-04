@@ -1,28 +1,18 @@
 N, M = map(int, input().split())
 
+ans = 10**18
 
-def min_greater_than_x(lst, x):
-    greater_than_x = [num for num in lst if num >= x]
-    if len(greater_than_x) == 0:
-        return -1
-    else:
-        return min(greater_than_x)
+# a < bを仮定する
+for a in range(1, N + 1):
+    b = M // a
+    if not M % a == 0:  # 余りが発生した (掛け算してMに達しない) 場合は+1
+        b += 1
+    if b <= N:  # bはNを超えない
+        ans = min(ans, a * b)
+    if b < a:  # a<=b<=N に反する
+        break
 
-
-# 最大値でかけた場合でもMに届かない
-if N * N < M:
+if ans == 10**18:
     print(-1)
-    exit()
-left = N
-right = M // N
-
-# ans_list = []
-ans_set = set()
-for i in range(right, left + 1):
-    for j in range(M // i, left + 1):
-        # print(f"{i=}{j=} {i*j}")
-        ans_set.add(i * j)
-        if i * j >= M:
-            break
-
-print(min_greater_than_x(list(ans_set), M))
+else:
+    print(ans)
