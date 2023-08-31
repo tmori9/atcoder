@@ -1,34 +1,36 @@
 n = int(input())
 x = [list(map(int, input().split())) for i in range(n)]
 
+INF = 10**18
 current_aoki = 0
 current_takahashi = 0
 negaeri_cost = []  # [高橋に寝返るコスト, 獲得議席]
+all_seats = 0  # 全議席数
 
 for ku in x:
-    takahashi, aoki, zaseki = ku
+    takahashi, aoki, seat = ku
+    all_seats += seat
     if takahashi > aoki:
-        current_takahashi += zaseki
+        current_takahashi += seat
+        negaeri_cost.append([0, 0])
     else:
-        current_aoki += zaseki
-        negaeri_cost.append([(aoki - takahashi) // 2 + 1, zaseki])
+        current_aoki += seat
+        negaeri_cost.append([(aoki - takahashi + 1) // 2, seat])
 
-print(f"aoki = {current_aoki}")
-print(f"takahashi = {current_takahashi}")
-print(negaeri_cost)
+# print(f"aoki = {current_aoki}")
+# print(f"takahashi = {current_takahashi}")
+# print(negaeri_cost)
 
 # 必要な議席数
-need_zaseki = (current_aoki - current_takahashi) // 2 + 1
-print(f"need_zaseki = {need_zaseki}")
+need_seats = (current_aoki - current_takahashi + 1) // 2
+# print(f"必要議席数 = {need_seats}")
 
-dp = [[0] * (len(negaeri_cost) + 1) for j in range(need_zaseki + 1)]
+dp = [INF] * (all_seats + 1)
+dp[0] = 0
 
-for i in range(len(negaeri_cost)):
-    for j in range(need_zaseki + 1):
-        if j < negaeri_cost[i][0]:
-            dp[j][i + 1] = dp[j][i]
-        else:
-            dp[j][i + 1] = max(
-                dp[j][i], dp[j - negaeri_cost[i][0]][i] + negaeri_cost[i][1]
-            )
-print(dp)
+for cost, seat in negaeri_cost:
+    for i in range(all_seats, seat - 1, -1):
+        dp[i] = min(dp[i], dp[i - seat] + cost)
+
+ans = min(dp[need_seats:])
+print(ans)
